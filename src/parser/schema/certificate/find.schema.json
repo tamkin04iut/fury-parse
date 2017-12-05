@@ -1,0 +1,9 @@
+{
+	"$id": "bln://certificate.find",
+	"title": "an array of certificate records",
+	"type": "array",
+	"items": {
+		"$ref": "bln://certificate.read"
+	},
+	"uniqueItems": true
+}

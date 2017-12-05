@@ -1,0 +1,22 @@
+{
+	"$id": "bln://certificate.create",
+	"title": "create a certificate",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"minLength": 2
+		},
+		"positioning": {
+			"type": "object"
+		},
+		"spec": {
+			"type": "object"
+		},
+		"backgroundUrl": {
+			"$ref": "bln://file.update"
+		}
+	},
+	"required": ["name", "backgroundUrl"],
+	"additionalProperties": false
+}

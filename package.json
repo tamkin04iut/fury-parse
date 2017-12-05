@@ -1,0 +1,27 @@
+{
+  "name": "fury-parse",
+  "version": "1.0.0",
+  "description": "Fury Parse",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamkin04iut/fury-parse.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tamkin04iut/fury-parse/issues"
+  },
+  "homepage": "https://github.com/tamkin04iut/fury-parse#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "fury": "^3.0.0-beta.6",
+    "fury-adapter-apiary-blueprint-parser": "^3.0.0-beta.3",
+    "fury-adapter-apib-parser": "^0.10.0",
+    "nodemon": "^1.12.4",
+    "protagonist": "^2.0.0-pre.0"
+  }
+}

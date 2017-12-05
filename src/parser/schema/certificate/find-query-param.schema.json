@@ -1,0 +1,19 @@
+{
+	"$id": "bln://certificate.find-query-param",
+	"title": "query parameters for the FIND /certificates route",
+	"type": "object",
+	"properties": {
+		"ownerOrganizationId": {
+			"type": "integer"
+		},
+		"query": {
+			"type": "string"
+		},
+		"sort": {
+			"enum": ["name", "created"]
+		},
+		"order": {
+			"enum": ["asc", "desc"]
+		}
+	}
+}

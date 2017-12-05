@@ -1,0 +1,21 @@
+{
+	"$id": "bln://certificate.update",
+	"title": "update a certificate",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"minLength": 2
+		},
+		"positioning": {
+			"type": ["object", "null"]
+		},
+		"spec": {
+			"type": ["object", "null"]
+		},
+		"backgroundUrl": {
+			"$ref": "bln://file.update"
+		}
+	},
+	"additionalProperties": false
+}
