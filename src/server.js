@@ -6,6 +6,5 @@ var app = express();
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}.`)
-	// new Parser().parseWithProtagonist();
 	new Parser().getAPIElement();
 });

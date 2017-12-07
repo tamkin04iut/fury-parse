@@ -1,54 +1,55 @@
-const protagonist = require('protagonist');
 const fury = require('fury');
 const apiParserAdaptor = require('fury-adapter-apib-parser');
 const fs = require('fs');
 
-class Parser {
-	parseWithProtagonist() {
-		const dataStructure = __dirname + '/../../docs/data-structure/index.md';
-		const path1 = __dirname + '/../../docs/certificate/index.md';
-		const path2 = __dirname + '/../../docs/certificate/product-certificate.md';
-		fs.readFile(dataStructure, 'utf8', (err, dataStructure) => {
-			fs.readFile(path2, (err, data) => {
-				protagonist.parse(dataStructure.toString() + '\n' + data.toString(), function(error, result) {
-					if (error) {
-						console.log(error);
-						return;
-					}
-					console.log('Data', JSON.stringify(result));
-				});
-			});
-		});
-	}
-	
-	filterFunc(item) {
-		console.log('item', item);
-		if (item.element === 'httpRequest' && item.statusCode === 200) {
-			return true;
-		}
-		return false;
-	}
-	
+/*
+	https://api-elements.readthedocs.io/en/latest/element-definitions/
+	https://github.com/refractproject/minim-api-description
+	https://github.com/apiaryio/fury.js
+*/
+class Parser {	
 	getAPIElement() {
 		fury.use(apiParserAdaptor);
-		const dataStructure = __dirname + '/../../docs/data-structure/index.md';
-		const path1 = __dirname + '/../../docs/certificate/index.md';
-		const path2 = __dirname + '/../../docs/certificate/product-certificate.md';
+		const path2 = __dirname + '/../../docs/certificate/certificate.md';
 		
-		fs.readFile(dataStructure, 'utf8', (err, dataStructure) => {
-			fs.readFile(path2, 'utf8', (err, data) => {
-				fury.parse({
-					source: dataStructure.toString() + '\n' + data.toString(),
-					mediaType: 'text/vnd.apiblueprint'
-				}, (err, result) => {
-					console.log('Error!!!!', err);
-					result.api.find(this.filterFunc).forEach(function (request) {
-						console.log('request', request);
-						console.log(`${request.method} ${request.href}`)
+		fs.readFile(path2, 'utf8', (err, data) => {
+			fury.parse({source: data.toString()}, (err, result) => {
+				console.log('Error!', err);
+				result.api.resourceGroups.forEach(function (resourceGroup) {
+					resourceGroup.resources.forEach(function (resource) {
+						resource.transitions.forEach(function (transition) {
+							transition.transactions.forEach(function (transaction) {
+								const request = transaction.request;
+								const response = transaction.response;
+								if (request.method.toValue() !== 'GET') {
+									return;
+								}
+								
+								console.log('-----');
+								console.log('Http Method:',request.method.toValue());
+								console.log('Url:',resource.href.toValue());
+								
+								let hrefVariables = transition.hrefVariables || resource.hrefVariables;
+								if (hrefVariables) {
+									let members = hrefVariables
+										.children
+										.filter(item => item.element === 'member')
+									;
+									members.forEach((m) => {
+										console.log(m.toValue());
+										console.log(m.attributes.children.first.toValue());
+									});
+								}
+								
+								console.log('Response Type:', response.contentType.toValue());
+								console.log('Response JSON Schema:',response.messageBodySchema.toValue());
+								console.log('-----');
+							});
+						});
 					});
 				});
-			})
-		});
+			});
+		})
 	}
 }
 
